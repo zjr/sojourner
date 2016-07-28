@@ -262,4 +262,53 @@ suite('lib/rover', () => {
       });
     });
   });
+
+  suite('Move rover around globe', () => {
+    let rover;
+
+    suiteSetup('get a new rover', done => {
+      controller['/'].get(null, stub(res => {
+        rover = res.data;
+        done();
+      }));
+    });
+
+    suite('move the rover over the north', () => {
+      const cmds = [
+        { cmd: 'move', value: 'forward' },
+        { cmd: 'move', value: 'forward' },
+        { cmd: 'move', value: 'forward' },
+        { cmd: 'move', value: 'forward' },
+        { cmd: 'move', value: 'forward' }
+      ];
+
+      suiteSetup('send rover command queue', done => {
+        controller['/cmd-queue'].put(makeCmdQueueReq(rover.id, cmds), stub(res => {
+          rover = res.data;
+          done();
+        }));
+      });
+
+      test('rover y should be 0', () => {
+        assert.equal(rover.y, 0);
+      });
+    });
+
+    suite('move the rover over the south', () => {
+      const cmds = [
+        { cmd: 'move', value: 'backward' }
+      ];
+
+      suiteSetup('send rover command queue', done => {
+        controller['/cmd-queue'].put(makeCmdQueueReq(rover.id, cmds), stub(res => {
+          rover = res.data;
+          done();
+        }));
+      });
+
+      test('rover y should be 4', () => {
+        assert.equal(rover.y, 4);
+      });
+    });
+  });
 });
