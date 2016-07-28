@@ -15,5 +15,10 @@ module.exports = {
       const rover = Object.assign({}, roverProto, { id: rovers.length });
       res.sjPass(rover);
     }
+  },
+  '/rotate': {
+    put(req, res) {
+      res.sjPass('');
+    }
   }
 };
