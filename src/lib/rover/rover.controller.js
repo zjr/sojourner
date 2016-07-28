@@ -73,5 +73,10 @@ module.exports = {
     put(req, res) {
       res.sjPass(findAndRotateRover(req.params.id, req.query.direction));
     }
+  },
+  '/move': {
+    put(req, res) {
+      res.sjPass('');
+    }
   }
 };

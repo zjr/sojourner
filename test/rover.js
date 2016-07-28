@@ -5,7 +5,7 @@ const assert = require('chai').assert;
 const stub = require('../src/lib/resHandler').stub;
 const controller = require('../src/lib/rover/rover.controller');
 
-const makeRotateReq = (id, direction) => ({ params: { id }, query: { direction } });
+const makeRotateOrMoveReq = (id, direction) => ({ params: { id }, query: { direction } });
 
 suite('lib/rover', () => {
   suite('GET /rover', () => {
@@ -51,7 +51,7 @@ suite('lib/rover', () => {
       let actual;
 
       suiteSetup('rotate rover right', done => {
-        controller['/rotate'].put(makeRotateReq(rover.id, 'right'), stub(res => {
+        controller['/rotate'].put(makeRotateOrMoveReq(rover.id, 'right'), stub(res => {
           actual = res.data;
           done();
         }));
@@ -66,7 +66,7 @@ suite('lib/rover', () => {
       let actual;
 
       suiteSetup('rotate rover right', done => {
-        controller['/rotate'].put(makeRotateReq(rover.id, 'right'), stub(res => {
+        controller['/rotate'].put(makeRotateOrMoveReq(rover.id, 'right'), stub(res => {
           actual = res.data;
           done();
         }));
@@ -81,7 +81,7 @@ suite('lib/rover', () => {
       let actual;
 
       suiteSetup('rotate rover right', done => {
-        controller['/rotate'].put(makeRotateReq(rover.id, 'right'), stub(res => {
+        controller['/rotate'].put(makeRotateOrMoveReq(rover.id, 'right'), stub(res => {
           actual = res.data;
           done();
         }));
@@ -96,7 +96,7 @@ suite('lib/rover', () => {
       let actual;
 
       suiteSetup('rotate rover right', done => {
-        controller['/rotate'].put(makeRotateReq(rover.id, 'right'), stub(res => {
+        controller['/rotate'].put(makeRotateOrMoveReq(rover.id, 'right'), stub(res => {
           actual = res.data;
           done();
         }));
@@ -111,7 +111,7 @@ suite('lib/rover', () => {
       let actual;
 
       suiteSetup('rotate rover left', done => {
-        controller['/rotate'].put(makeRotateReq(rover.id, 'left'), stub(res => {
+        controller['/rotate'].put(makeRotateOrMoveReq(rover.id, 'left'), stub(res => {
           actual = res.data;
           done();
         }));
@@ -119,6 +119,48 @@ suite('lib/rover', () => {
 
       test('direction should equal W', () => {
         assert.equal(actual.direction, 'W');
+      });
+    });
+  });
+
+
+  suite('PUT /rover/:id/move', () => {
+    let rover;
+
+    suiteSetup('get a new rover', done => {
+      controller['/'].get(null, stub(res => {
+        rover = res.data;
+        done();
+      }));
+    });
+
+    suite('move the rover forward', () => {
+      let actual;
+
+      suiteSetup('move forward', done => {
+        controller['/move'].put(makeRotateOrMoveReq(rover.id, 'forward'), stub(res => {
+          actual = res.data;
+          done();
+        }));
+      });
+
+      test('x should now be 1', () => {
+        assert.equal(actual.x, 1);
+      });
+    });
+
+    suite('move the rover backward', () => {
+      let actual;
+
+      suiteSetup('move rover backward', done => {
+        controller['/move'].put(makeRotateOrMoveReq(rover.id, 'backward'), stub(res => {
+          actual = res.data;
+          done();
+        }));
+      });
+
+      test('x should equal 0', () => {
+        assert.equal(actual.direction, 0);
       });
     });
   });
