@@ -4,7 +4,10 @@
   "description": "to semiboldy mars where others have marsed before",
   "main": "server.js",
   "scripts": {
-    "test": "APP_ENV=TEST mocha"
+    "test": "APP_ENV=TEST mocha",
+    "test:watch": "nodemon -exec 'APP_ENV=test mocha'",
+    "posttest": "npm run lint",
+    "lint": "eslint ./src"
   },
   "repository": {
     "type": "git",
