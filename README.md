@@ -54,7 +54,7 @@ This runs on port 1996 if you run locally (for the year Sojourner was launched o
  
 * **Sample Call:**
 
-  `curl -X PUT "http://sojourner.zjr.io/rover/1/rotate?direction=right"`
+  `curl -X PUT "http://sojourner.zjr.io/rover/0/rotate?direction=right"`
   
 * **Notes:**
 
@@ -97,7 +97,7 @@ This runs on port 1996 if you run locally (for the year Sojourner was launched o
     
 * **Sample Call:**
 
-  `curl -X PUT "http://sojourner.zjr.io/rover/1/move?direction=forward"`
+  `curl -X PUT "http://sojourner.zjr.io/rover/0/move?direction=forward"`
   
 * **Notes:**
 
@@ -127,9 +127,9 @@ This runs on port 1996 if you run locally (for the year Sojourner was launched o
   
   ```
   { "cmds": [
-    { "cmd": "move", value: "forward" },
-    { "cmd": "rotate", value: "right" },
-    { "cmd": "move", value: "forward" }
+    { "cmd": "move", "value": "forward" },
+    { "cmd": "rotate", "value": "right" },
+    { "cmd": "move", "value": "forward" }
   ]}
   ```
   
@@ -137,9 +137,9 @@ This runs on port 1996 if you run locally (for the year Sojourner was launched o
   
   ```
   { "cmds": [
-    { "cmd": "m", value: "forward" },
-    { "cmd": "r", value: "right" },
-    { "cmd": "m", value: "forward" }
+    { "cmd": "m", "value": "forward" },
+    { "cmd": "r", "value": "right" },
+    { "cmd": "m", "value": "forward" }
   ]}
   ```
 
@@ -158,10 +158,10 @@ This runs on port 1996 if you run locally (for the year Sojourner was launched o
 
   ```
   curl -X PUT -H "Content-Type: application/json" -d '{ "cmds": [
-      { "cmd": "move", value: "forward" },
-      { "cmd": "rotate", value: "right" },
-      { "cmd": "move", value: "forward" }
-  ]}' "http://sojourner.zjr.io/rover/1/cmd-queue"
+      { "cmd": "move", "value": "forward" },
+      { "cmd": "rotate", "value": "right" },
+      { "cmd": "move", "value": "forward" }
+  ]}' "http://sojourner.zjr.io/rover/0/cmd-queue"
   ```
   
 * **Notes:**
