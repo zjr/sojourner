@@ -6,7 +6,7 @@ const stub = require('../src/lib/resHandler').stub;
 const controller = require('../src/lib/rover/rover.controller');
 
 const makeRotateOrMoveReq = (id, direction) => ({ params: { id }, query: { direction } });
-const makeCmdQueueReq = (id, queue) => ({ params: { id }, body: { queue } });
+const makeCmdQueueReq = (id, cmds) => ({ params: { id }, body: { cmds } });
 
 suite('lib/rover', () => {
   suite('GET /rover', () => {

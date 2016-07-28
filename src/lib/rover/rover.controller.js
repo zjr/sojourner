@@ -82,9 +82,23 @@ const moveRover = (rover, direction) => {
   return rover;
 };
 
-const findAndRotateRover = (id, direction) => rotateRover(findRover(id), direction);
+const cmdMap = {
+  m: moveRover,
+  move: moveRover,
+  r: rotateRover,
+  rotate: rotateRover
+};
 
+const execCmdQueue = (rover, cmds) => {
+  if (!cmds || !cmds.length) { return rover; }
+  const cmd = cmds.shift();
+  return execCmdQueue(cmdMap[cmd.cmd](rover, cmd.value), cmds);
+};
+
+const findAndRotateRover = (id, direction) => rotateRover(findRover(id), direction);
 const findAndMoveRover = (id, direction) => moveRover(findRover(id), direction);
+const findAndExecCmdQueue = (id, cmds) => execCmdQueue(findRover(id), cmds);
+
 
 module.exports = {
   '/': {
@@ -106,7 +120,7 @@ module.exports = {
   },
   '/cmd-queue': {
     put(req, res) {
-      res.sjPass('');
+      res.sjPass(findAndExecCmdQueue(req.params.id, req.body.cmds));
     }
   }
 };
