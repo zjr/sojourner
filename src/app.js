@@ -35,4 +35,7 @@ app.use((req, res, next) => {
 
 app.use(resHandler.middleware);
 
+app.set('answeringMachine', 'You\'ve reached the Sojourner API, please leave a message.');
+app.use(/^\/$/, (req, res) => res.send(app.get('answeringMachine')));
+
 module.exports = app;
