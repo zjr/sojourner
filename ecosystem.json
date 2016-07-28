@@ -1,0 +1,23 @@
+{
+  "apps": [
+    {
+      "name": "sojourner",
+      "script": "./server.js",
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "watch": true,
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ],
+  "deploy": {
+    "prod": {
+      "user": "ubuntu",
+      "host": "slab",
+      "ref": "origin/master",
+      "repo": "git@github.com:zjr/sojourner.git",
+      "path": "$HOME/apps/rq-api",
+      "post-deploy": "npm install && pm2 startOrGracefulReload ecosystem.json --env prod"
+    }
+  }
+}
