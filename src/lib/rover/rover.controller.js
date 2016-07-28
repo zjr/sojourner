@@ -103,5 +103,10 @@ module.exports = {
     put(req, res) {
       res.sjPass(findAndMoveRover(req.params.id, req.query.direction));
     }
+  },
+  '/cmd-queue': {
+    put(req, res) {
+      res.sjPass('');
+    }
   }
 };

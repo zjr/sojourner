@@ -6,6 +6,7 @@ const stub = require('../src/lib/resHandler').stub;
 const controller = require('../src/lib/rover/rover.controller');
 
 const makeRotateOrMoveReq = (id, direction) => ({ params: { id }, query: { direction } });
+const makeCmdQueueReq = (id, queue) => ({ params: { id }, body: { queue } });
 
 suite('lib/rover', () => {
   suite('GET /rover', () => {
@@ -123,7 +124,6 @@ suite('lib/rover', () => {
     });
   });
 
-
   suite('PUT /rover/:id/move', () => {
     let rover;
 
@@ -201,6 +201,64 @@ suite('lib/rover', () => {
         test('x should equal 0', () => {
           assert.equal(actual.x, 0);
         });
+      });
+    });
+  });
+
+  suite('PUT /rover/:id/cmd-queue', () => {
+    let rover;
+
+    suiteSetup('get a new rover', done => {
+      controller['/'].get(null, stub(res => {
+        rover = res.data;
+        done();
+      }));
+    });
+
+    suite('move the rover north and east', () => {
+      const cmds = [
+        { cmd: 'move', value: 'forward' },
+        { cmd: 'rotate', value: 'right' },
+        { cmd: 'move', value: 'forward' }
+      ];
+
+      suiteSetup('send rover command queue', done => {
+        controller['/cmd-queue'].put(makeCmdQueueReq(rover.id, cmds), stub(res => {
+          rover = res.data;
+          done();
+        }));
+      });
+
+      test('rover x should be 1', () => {
+        assert.equal(rover.x, 1);
+      });
+
+      test('rover y should be 1', () => {
+        assert.equal(rover.y, 1);
+      });
+    });
+
+    suite('move the rover south and west', () => {
+      const cmds = [
+        { cmd: 'rotate', value: 'right' },
+        { cmd: 'move', value: 'forward' },
+        { cmd: 'rotate', value: 'right' },
+        { cmd: 'move', value: 'forward' }
+      ];
+
+      suiteSetup('send rover command queue', done => {
+        controller['/cmd-queue'].put(makeCmdQueueReq(rover.id, cmds), stub(res => {
+          rover = res.data;
+          done();
+        }));
+      });
+
+      test('rover x should be 0', () => {
+        assert.equal(rover.x, 0);
+      });
+
+      test('rover y should be 0', () => {
+        assert.equal(rover.y, 0);
       });
     });
   });

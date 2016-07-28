@@ -11,4 +11,6 @@ router.put('/:id/rotate', controller['/rotate'].put);
 
 router.put('/:id/move', controller['/move'].put);
 
+router.put('/:id/cmd-queue', controller['/cmd-queue'].put);
+
 module.exports = router;
