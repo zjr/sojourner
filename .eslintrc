@@ -22,6 +22,7 @@
     "no-unreachable": 1,
     "no-alert": 0,
     "camelcase": 1,
+    "global-require": 0,
     "no-param-reassign": [1, { "props": false }]
   }
 }
