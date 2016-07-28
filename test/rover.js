@@ -311,4 +311,35 @@ suite('lib/rover', () => {
       });
     });
   });
+
+  suite('Encounter obstacle', () => {
+    let rover;
+
+    suiteSetup('get a new rover', done => {
+      controller['/'].get(null, stub(res => {
+        rover = res.data;
+        done();
+      }));
+    });
+
+    suite('move the rover to obstacle', () => {
+      const cmds = [
+        { cmd: 'rotate', value: 'right' },
+        { cmd: 'move', value: 'forward' },
+        { cmd: 'move', value: 'forward' },
+        { cmd: 'move', value: 'forward' }
+      ];
+
+      suiteSetup('send rover command queue', done => {
+        controller['/cmd-queue'].put(makeCmdQueueReq(rover.id, cmds), stub(res => {
+          rover = res.data;
+          done();
+        }));
+      });
+
+      test('rover x should be 2', () => {
+        assert.equal(rover.x, 2);
+      });
+    });
+  });
 });
