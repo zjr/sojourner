@@ -9,7 +9,7 @@ This runs on port 1996 if you run locally (for the year Sojourner was launched o
 
 * **URL**
 
-  /rover
+  `/rover`
 
 * **Method:**
   
@@ -20,13 +20,17 @@ This runs on port 1996 if you run locally (for the year Sojourner was launched o
   * **Code:** 200 <br />
     **Content:** `{ id: 12, x: 0, y: 0, direction: 'N' }`
 
+* **Sample Call:**
+
+  `curl -X GET "http://localhost:1996/rover"`
+
 **Rotate Rover**
 ----
   Rotates a given rover to the right or left.
 
 * **URL**
 
-  /rover/{id}/rotate
+  `/rover/{id}/rotate`
 
 * **Method:**
   
@@ -62,7 +66,7 @@ This runs on port 1996 if you run locally (for the year Sojourner was launched o
 
 * **URL**
 
-  /rover/{id}/move
+  `/rover/{id}/move`
 
 * **Method:**
   
@@ -105,7 +109,7 @@ This runs on port 1996 if you run locally (for the year Sojourner was launched o
 
 * **URL**
 
-  /rover/{id}/cmd-queue
+  `/rover/{id}/cmd-queue`
 
 * **Method:**
   
