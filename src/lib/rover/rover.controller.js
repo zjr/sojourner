@@ -1,5 +1,7 @@
 'use strict';
 
+const gridMax = 4;
+
 const roverProto = {
   x: 0,
   y: 0,
@@ -60,6 +62,7 @@ const rotateRover = (rover, direction) => {
 };
 
 const isForward = direction => direction === 'forward';
+const overMax = coord => coord >= gridMax;
 
 const moveRover = (rover, direction) => {
   switch (rover.direction) {
@@ -78,6 +81,15 @@ const moveRover = (rover, direction) => {
     default:
       // error case
       break;
+  }
+  if (rover.y > gridMax) {
+    rover.y = 0;
+  } else if (rover.x > gridMax) {
+    rover.x = 0;
+  } else if (rover.x === -1) {
+    rover.x = gridMax;
+  } else if (rover.y === -1) {
+    rover.y = gridMax;
   }
   return rover;
 };
@@ -98,7 +110,6 @@ const execCmdQueue = (rover, cmds) => {
 const findAndRotateRover = (id, direction) => rotateRover(findRover(id), direction);
 const findAndMoveRover = (id, direction) => moveRover(findRover(id), direction);
 const findAndExecCmdQueue = (id, cmds) => execCmdQueue(findRover(id), cmds);
-
 
 module.exports = {
   '/': {
