@@ -22,7 +22,7 @@ This runs on port 1996 if you run locally (for the year Sojourner was launched o
 
 * **Sample Call:**
 
-  `curl -X GET "http://localhost:1996/rover"`
+  `curl -X GET "http://sojourner.zjr.io/rover"`
 
 **Rotate Rover**
 ----
