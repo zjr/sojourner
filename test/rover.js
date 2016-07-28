@@ -134,7 +134,7 @@ suite('lib/rover', () => {
       }));
     });
 
-    suite('move the rover forward', () => {
+    suite('move the rover forward on y axis', () => {
       let actual;
 
       suiteSetup('move forward', done => {
@@ -144,23 +144,23 @@ suite('lib/rover', () => {
         }));
       });
 
-      test('x should now be 1', () => {
-        assert.equal(actual.x, 1);
+      test('y should now be 1', () => {
+        assert.equal(actual.y, 1);
       });
     });
 
     suite('move the rover backward', () => {
       let actual;
 
-      suiteSetup('move rover backward', done => {
+      suiteSetup('move rover backward on y axis', done => {
         controller['/move'].put(makeRotateOrMoveReq(rover.id, 'backward'), stub(res => {
           actual = res.data;
           done();
         }));
       });
 
-      test('x should equal 0', () => {
-        assert.equal(actual.direction, 0);
+      test('y should equal 0', () => {
+        assert.equal(actual.y, 0);
       });
     });
   });

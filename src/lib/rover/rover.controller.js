@@ -59,7 +59,32 @@ const rotateRover = (rover, direction) => {
   return rover;
 };
 
+const isForward = direction => direction === 'forward';
+
+const moveRover = (rover, direction) => {
+  switch (rover.direction) {
+    case 'N':
+      rover.y = isForward(direction) ? rover.y + 1 : rover.y - 1;
+      break;
+    case 'S':
+      rover.y = !isForward(direction) ? rover.y + 1 : rover.y - 1;
+      break;
+    case 'E':
+      rover.x = isForward(direction) ? rover.x + 1 : rover.x - 1;
+      break;
+    case 'W':
+      rover.x = !isForward(direction) ? rover.x + 1 : rover.x - 1;
+      break;
+    default:
+      // error case
+      break;
+  }
+  return rover;
+};
+
 const findAndRotateRover = (id, direction) => rotateRover(findRover(id), direction);
+
+const findAndMoveRover = (id, direction) => moveRover(findRover(id), direction);
 
 module.exports = {
   '/': {
@@ -76,7 +101,7 @@ module.exports = {
   },
   '/move': {
     put(req, res) {
-      res.sjPass('');
+      res.sjPass(findAndMoveRover(req.params.id, req.query.direction));
     }
   }
 };
