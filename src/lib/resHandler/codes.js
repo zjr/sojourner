@@ -56,6 +56,10 @@ const codes = {
     unknown: makeCode({
       code: 100,
       message: 'An unknown error has occurred.'
+    }),
+    obstacle: makeCode({
+      code: 101,
+      message: 'An obstacle was encountered and rover was stopped.'
     })
   }
 };

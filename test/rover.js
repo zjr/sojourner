@@ -330,15 +330,25 @@ suite('lib/rover', () => {
         { cmd: 'move', value: 'forward' }
       ];
 
+      let error;
+
       suiteSetup('send rover command queue', done => {
         controller['/cmd-queue'].put(makeCmdQueueReq(rover.id, cmds), stub(res => {
-          rover = res.data;
+          error = res;
           done();
         }));
       });
 
-      test('rover x should be 2', () => {
-        assert.equal(rover.x, 2);
+      test('error http code should be 500', () => {
+        assert.equal(error.http_code, 500);
+      });
+
+      test('error code should be 101', () => {
+        assert.equal(error.code, 101);
+      });
+
+      test('error message should be for obstacle at 3, 0', () => {
+        assert.equal(error.message, 'Obstacle encountered at 3, 0');
       });
     });
   });

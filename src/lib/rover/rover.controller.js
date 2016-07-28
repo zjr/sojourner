@@ -1,6 +1,9 @@
 'use strict';
 
+const codes = require('../resHandler/codes');
+
 const gridMax = 4;
+const obstaclePoint = { x: 3, y: 0 };
 
 const roverProto = {
   x: 0,
@@ -62,36 +65,44 @@ const rotateRover = (rover, direction) => {
 };
 
 const isForward = direction => direction === 'forward';
-const overMax = coord => coord >= gridMax;
+
+const checkObstacle = (rover, coords) => {
+  if (coords.x === obstaclePoint.x && coords.y === obstaclePoint.y) {
+    const message = `Obstacle encountered at ${coords.x}, ${coords.y}`;
+    throw codes.x500.obstacle.merge({ message });
+  }
+  return Object.assign(rover, coords);
+};
 
 const moveRover = (rover, direction) => {
+  const coords = { x: rover.x, y: rover.y };
   switch (rover.direction) {
     case 'N':
-      rover.y = isForward(direction) ? rover.y + 1 : rover.y - 1;
+      coords.y = isForward(direction) ? coords.y + 1 : coords.y - 1;
       break;
     case 'S':
-      rover.y = !isForward(direction) ? rover.y + 1 : rover.y - 1;
+      coords.y = !isForward(direction) ? coords.y + 1 : coords.y - 1;
       break;
     case 'E':
-      rover.x = isForward(direction) ? rover.x + 1 : rover.x - 1;
+      coords.x = isForward(direction) ? coords.x + 1 : coords.x - 1;
       break;
     case 'W':
-      rover.x = !isForward(direction) ? rover.x + 1 : rover.x - 1;
+      coords.x = !isForward(direction) ? coords.x + 1 : coords.x - 1;
       break;
     default:
       // error case
       break;
   }
-  if (rover.y > gridMax) {
-    rover.y = 0;
-  } else if (rover.x > gridMax) {
-    rover.x = 0;
-  } else if (rover.x === -1) {
-    rover.x = gridMax;
-  } else if (rover.y === -1) {
-    rover.y = gridMax;
+  if (coords.y > gridMax) {
+    coords.y = 0;
+  } else if (coords.x > gridMax) {
+    coords.x = 0;
+  } else if (coords.x === -1) {
+    coords.x = gridMax;
+  } else if (coords.y === -1) {
+    coords.y = gridMax;
   }
-  return rover;
+  return checkObstacle(rover, coords);
 };
 
 const cmdMap = {
@@ -121,17 +132,35 @@ module.exports = {
   },
   '/rotate': {
     put(req, res) {
-      res.sjPass(findAndRotateRover(req.params.id, req.query.direction));
+      let result;
+      try {
+        result = findAndRotateRover(req.params.id, req.query.direction)
+      } catch (e) {
+        return res.sjFail(e);
+      }
+      res.sjPass(result);
     }
   },
   '/move': {
     put(req, res) {
-      res.sjPass(findAndMoveRover(req.params.id, req.query.direction));
+      let result;
+      try {
+        result = findAndMoveRover(req.params.id, req.query.direction);
+      } catch (e) {
+        return res.sjFail(e);
+      }
+      res.sjPass(result);
     }
   },
   '/cmd-queue': {
     put(req, res) {
-      res.sjPass(findAndExecCmdQueue(req.params.id, req.body.cmds));
+      let result;
+      try {
+        result = findAndExecCmdQueue(req.params.id, req.body.cmds);
+      } catch (e) {
+        return res.sjFail(e);
+      }
+      res.sjPass(result);
     }
   }
 };
