@@ -134,33 +134,33 @@ module.exports = {
     put(req, res) {
       let result;
       try {
-        result = findAndRotateRover(req.params.id, req.query.direction)
+        result = findAndRotateRover(parseInt(req.params.id, 10), req.query.direction);
       } catch (e) {
         return res.sjFail(e);
       }
-      res.sjPass(result);
+      return res.sjPass(result);
     }
   },
   '/move': {
     put(req, res) {
       let result;
       try {
-        result = findAndMoveRover(req.params.id, req.query.direction);
+        result = findAndMoveRover(parseInt(req.params.id, 10), req.query.direction);
       } catch (e) {
         return res.sjFail(e);
       }
-      res.sjPass(result);
+      return res.sjPass(result);
     }
   },
   '/cmd-queue': {
     put(req, res) {
       let result;
       try {
-        result = findAndExecCmdQueue(req.params.id, req.body.cmds);
+        result = findAndExecCmdQueue(parseInt(req.params.id, 10), req.body.cmds);
       } catch (e) {
         return res.sjFail(e);
       }
-      res.sjPass(result);
+      return res.sjPass(result);
     }
   }
 };
