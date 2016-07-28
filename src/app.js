@@ -38,4 +38,6 @@ app.use(resHandler.middleware);
 app.set('answeringMachine', 'You\'ve reached the Sojourner API, please leave a message.');
 app.use(/^\/$/, (req, res) => res.send(app.get('answeringMachine')));
 
+app.use('/rover', require('./lib/rover/rover.route'));
+
 module.exports = app;
