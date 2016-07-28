@@ -1,0 +1,19 @@
+{
+  "name": "sojourner",
+  "version": "1.0.0",
+  "description": "to semiboldy mars where others have marsed before",
+  "main": "server.js",
+  "scripts": {
+    "test": "APP_ENV=TEST mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zjr/sojourner.git"
+  },
+  "author": "ZJR",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zjr/sojourner/issues"
+  },
+  "homepage": "https://github.com/zjr/sojourner#readme"
+}
