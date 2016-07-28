@@ -6,15 +6,6 @@ const codes = require('./codes');
 
 const resHandlerProto = {
 
-  appendTokens() {
-    this.body.tokens = {
-      token: this._headers.token,
-      refresh: this._headers.refresh
-    };
-
-    return this;
-  },
-
   appendData(data) {
     if (!_.isNull(data) && !_.isUndefined(data)) {
       this.body.data = data;
@@ -36,7 +27,6 @@ const resHandlerProto = {
 
     return this
       .appendData(data)
-      .appendTokens()
       .setCodeAndSendJSON();
   },
 
