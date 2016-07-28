@@ -5,14 +5,14 @@ const assert = require('chai').assert;
 const stub = require('../src/lib/resHandler').stub;
 const controller = require('../src/lib/rover/rover.controller');
 
-const makerotateQuery = direction => ({ query: direction });
+const makeRotateReq = (id, direction) => ({ params: { id }, query: { direction } });
 
 suite('lib/rover', () => {
   suite('GET /rover', () => {
     suite('Get starting location and direction of new rover.', () => {
       let actual;
 
-      suiteSetup('', done => {
+      suiteSetup('get a new rover', done => {
         controller['/'].get(null, stub(res => {
           actual = res.data;
           done();
@@ -38,11 +38,20 @@ suite('lib/rover', () => {
   });
 
   suite('PUT /rover/:id/rotate', () => {
+    let rover;
+
+    suiteSetup('get a new rover', done => {
+      controller['/'].get(null, stub(res => {
+        rover = res.data;
+        done();
+      }));
+    });
+
     suite('rotate the rover right to east', () => {
       let actual;
 
-      suiteSetup('', done => {
-        controller['/rotate'].put(makerotateQuery('right'), stub(res => {
+      suiteSetup('rotate rover right', done => {
+        controller['/rotate'].put(makeRotateReq(rover.id, 'right'), stub(res => {
           actual = res.data;
           done();
         }));
@@ -56,8 +65,8 @@ suite('lib/rover', () => {
     suite('rotate the rover right to south', () => {
       let actual;
 
-      suiteSetup('', done => {
-        controller['/rotate'].put(makerotateQuery('right'), stub(res => {
+      suiteSetup('rotate rover right', done => {
+        controller['/rotate'].put(makeRotateReq(rover.id, 'right'), stub(res => {
           actual = res.data;
           done();
         }));
@@ -71,8 +80,8 @@ suite('lib/rover', () => {
     suite('rotate the rover right to west', () => {
       let actual;
 
-      suiteSetup('', done => {
-        controller['/rotate'].put(makerotateQuery('right'), stub(res => {
+      suiteSetup('rotate rover right', done => {
+        controller['/rotate'].put(makeRotateReq(rover.id, 'right'), stub(res => {
           actual = res.data;
           done();
         }));
@@ -86,8 +95,8 @@ suite('lib/rover', () => {
     suite('rotate the rover right to north', () => {
       let actual;
 
-      suiteSetup('', done => {
-        controller['/rotate'].put(makerotateQuery('right'), stub(res => {
+      suiteSetup('rotate rover right', done => {
+        controller['/rotate'].put(makeRotateReq(rover.id, 'right'), stub(res => {
           actual = res.data;
           done();
         }));
@@ -101,8 +110,8 @@ suite('lib/rover', () => {
     suite('rotate the rover left back to west', () => {
       let actual;
 
-      suiteSetup('', done => {
-        controller['/rotate'].put(makerotateQuery('left'), stub(res => {
+      suiteSetup('rotate rover left', done => {
+        controller['/rotate'].put(makeRotateReq(rover.id, 'left'), stub(res => {
           actual = res.data;
           done();
         }));
